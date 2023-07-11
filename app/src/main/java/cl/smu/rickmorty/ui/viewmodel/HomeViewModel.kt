@@ -4,28 +4,30 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cl.smu.rickmorty.model.data.CharacterList
+import cl.smu.rickmorty.model.data.CharacterModel
 import cl.smu.rickmorty.model.repository.RickMortyRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class HomeViewModel(val respository: RickMortyRepository) : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(val data : RickMortyRepository) : ViewModel() {
 
 
-    var charactersList = MutableLiveData<Response<CharacterList>>()
-    /*
-    private val repository = RickMortyRepository()
-    val characters = MutableLiveData<List<CharacterDetail>>()
-    */
-    fun getCharacters(page:Int){
+    var charactersList = MutableLiveData<List<CharacterModel>>()
+
+    fun getCharacters(){
         viewModelScope.launch {
-            val characterFromRepo = respository.getCharacters(page)
-            if (characterFromRepo.isSuccessful){
-                charactersList.postValue(characterFromRepo)
-            }
+            charactersList.postValue(data.getCharacters())
         }
     }
 }
 
+/*
+   private val repository = RickMortyRepository()
+   val characters = MutableLiveData<List<CharacterDetail>>()
+   */
 /*
 if (characterFromRepo.isNotEmpty()){
     characters.postValue(characterFromRepo)

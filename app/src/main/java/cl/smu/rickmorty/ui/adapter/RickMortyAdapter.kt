@@ -6,10 +6,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import cl.smu.rickmorty.R
 import cl.smu.rickmorty.databinding.ItemApiBinding
-import cl.smu.rickmorty.model.data.CharacterList
+import cl.smu.rickmorty.model.data.CharacterModel
+
 
 class RickMortyAdapter(
-    private var rickAndMortyList: List<CharacterList> = emptyList()
+    private var rickAndMortyList: List<CharacterModel>,
+    private val onItemSelected: () -> Unit
 ) : RecyclerView.Adapter<RickMortyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RickMortyViewHolder {
@@ -17,20 +19,18 @@ class RickMortyAdapter(
         return RickMortyViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return rickAndMortyList.size
-    }
+    override fun getItemCount(): Int = rickAndMortyList.size
 
-    fun updateList(rickAndMortyList: List<CharacterList>) {
+    fun updateList(rickAndMortyList: List<CharacterModel>) {
         this.rickAndMortyList = rickAndMortyList
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: RickMortyViewHolder, position: Int) {
-        rickAndMortyList[position]
+        val item = rickAndMortyList[position]
+        holder.bind(item)
         holder.itemView.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+            onItemSelected
         }
     }
-}
 }

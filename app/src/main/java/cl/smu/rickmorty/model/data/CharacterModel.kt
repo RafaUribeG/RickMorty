@@ -2,7 +2,7 @@ package cl.smu.rickmorty.model.data
 
 import com.google.gson.annotations.SerializedName
 
-data class Character(
+data class CharacterModel(
     @SerializedName("created") val created: String,
     @SerializedName("episode") val episode: List<String>,
     @SerializedName("gender") val gender: String,

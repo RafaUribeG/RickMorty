@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import cl.smu.rickmorty.R
 import cl.smu.rickmorty.databinding.FragmentDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
 

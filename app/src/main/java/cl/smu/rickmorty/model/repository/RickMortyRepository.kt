@@ -1,29 +1,27 @@
 package cl.smu.rickmorty.model.repository
 
 
+import android.util.Log
 import cl.smu.rickmorty.model.data.CharacterList
-import cl.smu.rickmorty.model.networking.ApiModule
-import retrofit2.Response
+import cl.smu.rickmorty.model.data.CharacterModel
+import cl.smu.rickmorty.model.networking.ApiService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 
-class RickMortyRepository {
+class RickMortyRepository @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun getCharacters(page:Int) :Response<CharacterList>{
-        return ApiModule.apiService.getCharacters(page)
-    }
-    /*
-    val apiService: ApiService = ApiModule.getRetrofit().create(ApiService::class.java)
 
-    suspend fun getCharacters(): List<CharacterDetail>{
-        return withContext(Dispatchers.IO){
+    suspend fun getCharacters(): List<CharacterModel> {
+        return withContext(Dispatchers.IO) {
             val response = apiService.getCharacters()
             if (response.isSuccessful){
                 val character = response.body()?.results ?: emptyList()
                 character
-            }else{
-                Log.e("Rafael", "DataError")
+            }else {
                 emptyList()
             }
         }
-    }*/
+    }
 }
