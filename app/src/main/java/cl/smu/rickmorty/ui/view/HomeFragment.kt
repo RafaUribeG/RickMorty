@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.smu.rickmorty.databinding.FragmentHomeBinding
 import cl.smu.rickmorty.ui.adapter.RickMortyAdapter
@@ -22,7 +24,7 @@ class HomeFragment : Fragment() {
     //Lazy Initialization
     private val binding by lazy { FragmentHomeBinding.inflate(layoutInflater) }
 
-    private val viewModel : HomeViewModel by activityViewModels()
+    private lateinit var viewModel : HomeViewModel
 
     private lateinit var characterAdapter : RickMortyAdapter
 
@@ -37,17 +39,24 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        initViewModel()
+        initAdapter()
         initRecycler()
         initObserver()
-
     }
 
     private fun initObserver() {
         viewModel.getCharacters()
-        viewModel.charactersList.observe(viewLifecycleOwner, Observer { characters ->
+        viewModel.charactersList.observe(viewLifecycleOwner) { characters ->
             binding.rvHome.adapter = RickMortyAdapter(characters) { onItemSelected() }
-        })
+        }
+    }
+
+    private fun initViewModel(){
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+    }
+    private fun initAdapter() {
+        characterAdapter = RickMortyAdapter(emptyList()) { onItemSelected() }
     }
 
     private fun onItemSelected(){

@@ -29,7 +29,7 @@ class RickMortyAdapter(
     override fun onBindViewHolder(holder: RickMortyViewHolder, position: Int) {
         val item = rickAndMortyList[position]
         holder.bind(item)
-        holder.itemView.setOnClickListener { view ->
+        holder.itemView.setOnClickListener {
             onItemSelected
         }
     }
