@@ -14,5 +14,5 @@ interface ApiService {
     suspend fun getCharacters(): Response<CharacterList>
 
     @GET(Constants.END_POINT_ID)
-    suspend fun getCharacter(@Query("id") id:Int) : Response<CharacterModel>
+    suspend fun getCharacter(@Path("id") id:Int) : Response<CharacterModel>
 }
